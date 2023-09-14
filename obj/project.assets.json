@@ -781,32 +781,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Vukasin\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\owens\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Vukasin\\Desktop\\CodingDojo\\CSharpProject\\CSharpProject.csproj",
+      "projectUniqueName": "C:\\Users\\owens\\Desktop\\Csharp\\CSharpProject\\CSharpProject.csproj",
       "projectName": "CSharpProject",
-      "projectPath": "C:\\Users\\Vukasin\\Desktop\\CodingDojo\\CSharpProject\\CSharpProject.csproj",
-      "packagesPath": "C:\\Users\\Vukasin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Vukasin\\Desktop\\CodingDojo\\CSharpProject\\obj\\",
+      "projectPath": "C:\\Users\\owens\\Desktop\\Csharp\\CSharpProject\\CSharpProject.csproj",
+      "packagesPath": "C:\\Users\\owens\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\owens\\Desktop\\Csharp\\CSharpProject\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Vukasin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\owens\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
