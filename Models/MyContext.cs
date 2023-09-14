@@ -6,9 +6,10 @@ namespace CSharpProject.Models;
 public class MyContext : DbContext
 {
   public MyContext(DbContextOptions options) : base(options) { }
+  public DbSet<User> Users { get; set; }
+  public DbSet<Location> Locations { get; set; }
+  public DbSet<Photo> Photos { get; set; }
+  public DbSet<Friendship> Friendships { get; set; }
 
-  //   <Add Models here(EXAMPLE)> =>
-  //   public DbSet<Chef> Chefs { get; set; }
-  // public DbSet<Dish> Dishes { get; set; }
 
 }
