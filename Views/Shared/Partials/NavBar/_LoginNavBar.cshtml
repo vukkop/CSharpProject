@@ -10,15 +10,15 @@
       <ul class="navbar-nav me-auto">
       </ul>
       <form asp-action="Login" asp-controller="Home" method="post" class="d-flex">
-        <div>
-        <input asp-for="EmailLogin" class="form-control me-sm-2" type="search" placeholder="Username">
+        <div class="me-sm-2">
+        <input asp-for="EmailLogin" class="form-control me-sm-2" placeholder="Email">
         <small><span asp-validation-for="EmailLogin" class="text-danger"></span></small>
         </div>
-        <div>
-        <input asp-for="PasswordLogin" class="form-control me-sm-2" type="search" placeholder="Password">
+        <div class="me-sm-2">
+        <input asp-for="PasswordLogin" class="form-control me-sm-2" placeholder="Password">
         <small><span asp-validation-for="PasswordLogin" class="text-danger"></span></small>
         </div>
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Login</button>
+        <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="Login">
       </form>
     </div>
   </div>

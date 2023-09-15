@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#">Home
+          <a class="nav-link" href="dashboard">Home
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
@@ -20,19 +20,22 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Find</a>
         </li>
-
       </ul>
-    <div>
+    <div class="d-flex">
+      <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Welcome @Context.Session.GetString("UserName")</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#">Edit Profile</a>
+            <a class="dropdown-item" href="#">Connection Requests</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Logout</a>
+            <form asp-action="Logout" asp-controller="Home" method="post" class="d-flex align-items-center">
+              <button type="submit" class="dropdown-item text-danger"><i class="fa-solid fa-power-off"></i> Logout</button>
+            </form>
           </div>
         </li>
+      </ul>
+      <img src='@Url.Content(Context.Session.GetString("UserPhoto"))' class="rounded" style="height: 50px;" alt='@Context.Session.GetString("UserName")'>
     </div>
     </div>
   </div>

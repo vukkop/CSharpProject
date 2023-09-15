@@ -1,3 +1,4 @@
 @model User
 
-<h1>Welcome @Model.UserName</h1>
+<h1>Welcome @Context.Session.GetString("UserName")</h1>
+

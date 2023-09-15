@@ -2,6 +2,7 @@
 using CSharpProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 
 namespace CSharpProject.Controllers;
@@ -16,8 +17,10 @@ public class HomeController : Controller
     _context = context;
   }
 
+  [HttpGet("")]
   public IActionResult Index()
   {
+    HttpContext.Session.Clear();
     return View("Index");
   }
 
@@ -32,6 +35,7 @@ public class HomeController : Controller
       _context.SaveChanges();
       HttpContext.Session.SetInt32("UserId", newUser.UserId);
       HttpContext.Session.SetString("UserName", newUser.UserName);
+      HttpContext.Session.SetString("UserPhoto", newUser.ProfilePhoto);
       return RedirectToAction("Dashboard");
     }
     else
@@ -51,7 +55,6 @@ public class HomeController : Controller
         ModelState.AddModelError("Email", "Invalid Email/Password");
         return View("Index");
       }
-
       PasswordHasher<LoginUser> hasher = new PasswordHasher<LoginUser>();
       var result = hasher.VerifyHashedPassword(loginUser, userInDb.Password, loginUser.PasswordLogin);
       if (result == 0)
@@ -61,12 +64,28 @@ public class HomeController : Controller
       }
       HttpContext.Session.SetInt32("UserId", userInDb.UserId);
       HttpContext.Session.SetString("UserName", userInDb.UserName);
+      HttpContext.Session.SetString("UserPhoto", userInDb.ProfilePhoto);
       return RedirectToAction("Dashboard");
     }
     else
     {
       return View("Index");
     }
+  }
+
+  [HttpPost("users/logout")]
+  public IActionResult Logout()
+  {
+    HttpContext.Session.Clear();
+    return View("Index");
+  }
+
+
+  [SessionCheck]
+  [HttpGet("users/dashboard")]
+  public IActionResult Dashboard()
+  {
+    return View("Dashboard");
   }
 
   public IActionResult Privacy()
@@ -78,5 +97,17 @@ public class HomeController : Controller
   public IActionResult Error()
   {
     return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+  }
+}
+
+public class SessionCheckAttribute : ActionFilterAttribute
+{
+  public override void OnActionExecuting(ActionExecutingContext context)
+  {
+    int? userId = context.HttpContext.Session.GetInt32("UserId");
+    if (userId == null)
+    {
+      context.Result = new RedirectToActionResult("Index", "Home", null);
+    }
   }
 }

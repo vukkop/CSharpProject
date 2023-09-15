@@ -10,7 +10,11 @@
 </head>
 <body>
     <header>
-       @await Html.PartialAsync("./Partials/NavBar/_LoginNavBar.cshtml")
+        @if(Context.Session.GetInt32("UserId") == null){
+            @await Html.PartialAsync("./Partials/NavBar/_LoginNavBar.cshtml");
+        }else{
+            @await Html.PartialAsync("./Partials/NavBar/_NavBar.cshtml");
+        }
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -23,8 +27,12 @@
             &copy; 2023 - CSharpProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    @* Font Awsome Icons https://fontawesome.com/search *@
+    <script src="https://kit.fontawesome.com/e71eff5305.js" crossorigin="anonymous"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
