@@ -1,0 +1,25 @@
+@model LoginUser
+
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="light">
+  <div class="container-fluid">
+    <a class="navbar-brand text-light" href="#">VR Media</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+      </ul>
+      <form asp-action="Login" asp-controller="Home" method="post" class="d-flex">
+        <div>
+        <input asp-for="EmailLogin" class="form-control me-sm-2" type="search" placeholder="Username">
+        <small><span asp-validation-for="EmailLogin" class="text-danger"></span></small>
+        </div>
+        <div>
+        <input asp-for="PasswordLogin" class="form-control me-sm-2" type="search" placeholder="Password">
+        <small><span asp-validation-for="PasswordLogin" class="text-danger"></span></small>
+        </div>
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+</nav>
