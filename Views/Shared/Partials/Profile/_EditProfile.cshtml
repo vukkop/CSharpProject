@@ -1,0 +1,68 @@
+@model User
+
+<form asp-action="UpdateProfile" asp-route-id="@Model.UserId" method="post" asp-controller="Profile">
+    <div class="row gap-3">
+        <div class="col-4">
+            <div class="mb-3 mt-5">
+                <label asp-for="FirstName">First Name</label>
+                <input asp-for="FirstName" type="text" class="form-control">
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="LastName">Last Name</label>
+                <input asp-for="LastName" type="text" class="form-control">
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="UserName"></label>
+                <input asp-for="UserName" type="text" class="form-control">
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Location"></label>
+                <input asp-for="Location" type="text" class="form-control">
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Occupation"></label>
+                <input asp-for="Occupation" type="text" class="form-control">
+                <span asp-validation-for="Occupation" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4 mt-5">
+            <div class="mb-3">
+                <p>Pronouns</p>
+                <label asp-for="Gender">He/Him</label>
+                <input asp-for="Gender" type="checkbox" class="form-check-input">
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Gender">She/Her</label>
+                <input asp-for="Gender" type="checkbox" class="form-check-input">
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Gender">They/Them</label>
+                <input asp-for="Gender" type="checkbox" class="form-check-input">
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="RelationshipStatus">Relationship Status</label>
+                <select asp-for="RelationshipStatus" class="form-select form-select-sm mb-3">
+                    <option selected>Choose an option</option>
+                    <option value="1">Single</option>
+                    <option value="2">Taken</option>
+                    <option value="3">Prefer not to answer</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="DateOfBirth">Birthdate</label>
+                <input asp-for="DateOfBirth" type="date" class="form-control">
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <button class="btn btn-success mt-5">Update</button>
+        </div>
+        <div class="col-4">
+        </div>
+    </div>
+</form>
