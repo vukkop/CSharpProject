@@ -18,11 +18,11 @@
                 <input asp-for="UserName" type="text" class="form-control">
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
-            <div class="mb-3">
+            @* <div class="mb-3">
                 <label asp-for="Location"></label>
                 <input asp-for="Location" type="text" class="form-control">
                 <span asp-validation-for="Location" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="mb-3">
                 <label asp-for="Occupation"></label>
                 <input asp-for="Occupation" type="text" class="form-control">
@@ -30,13 +30,13 @@
             </div>
         </div>
         <div class="col-4 mt-5">
-            <div class="mb-3">
+            @* <div class="mb-3">
                 <p>Pronouns</p>
                 <label asp-for="Gender">He/Him</label>
                 <input asp-for="Gender" type="checkbox" class="form-check-input">
                 <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
+            </div> *@
+            @* <div class="mb-3">
                 <label asp-for="Gender">She/Her</label>
                 <input asp-for="Gender" type="checkbox" class="form-check-input">
                 <span asp-validation-for="Gender" class="text-danger"></span>
@@ -45,14 +45,14 @@
                 <label asp-for="Gender">They/Them</label>
                 <input asp-for="Gender" type="checkbox" class="form-check-input">
                 <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="mb-3">
                 <label asp-for="RelationshipStatus">Relationship Status</label>
                 <select asp-for="RelationshipStatus" class="form-select form-select-sm mb-3">
                     <option selected>Choose an option</option>
-                    <option value="1">Single</option>
-                    <option value="2">Taken</option>
-                    <option value="3">Prefer not to answer</option>
+                    <option value="Single">Single</option>
+                    <option value="Taken">Taken</option>
+                    <option value="Prefer not to answer">Prefer not to answer</option>
                 </select>
             </div>
             <div class="mb-3">

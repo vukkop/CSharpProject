@@ -20,22 +20,35 @@ public class ProfileController : Controller
   [HttpPost("profiles/{id}/update")]
   public IActionResult UpdateProfile(User newUser, int id)
   {
+      System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+      System.Console.WriteLine(newUser.DateOfBirth);
+      System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     User? OldUser = _context.Users.FirstOrDefault(i => i.UserId == id);
+    if (!ModelState.IsValid)
+{
+    var message = string.Join(" | ", ModelState.Values
+        .SelectMany(v => v.Errors)
+        .Select(e => e.ErrorMessage));
+    Console.WriteLine(message);
+}
     if(ModelState.IsValid)
     {
+      System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+      System.Console.WriteLine(OldUser.FirstName);
+      System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
       OldUser.FirstName = newUser.FirstName;
       OldUser.LastName = newUser.LastName;
       OldUser.UserName = newUser.UserName;
-      OldUser.Location = newUser.Location;
+      // OldUser.Location = newUser.Location;
       OldUser.Occupation = newUser.Occupation;
-      OldUser.Gender = newUser.Gender;
+      // OldUser.Gender = newUser.Gender;
       OldUser.RelationshipStatus = newUser.RelationshipStatus;
       OldUser.DateOfBirth = newUser.DateOfBirth;
       OldUser.UpdatedAt = DateTime.Now;
       _context.SaveChanges();
       return RedirectToAction("SingleProfile", new {id = OldUser.UserId} );
     }
-    return View("../Profile/SingleProfile", OldUser);
+    return View("../Profile/EditProfile", OldUser);
   }
 
   [HttpGet("profiles/{id}/edit")]
