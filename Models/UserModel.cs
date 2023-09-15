@@ -29,7 +29,6 @@ namespace CSharpProject.Models
     [DataType(DataType.Password)]
     [Compare("Password")]
     public string ConfirmPassword { get; set; }
-    [Required(ErrorMessage = "Please select date of wedding.")]
     [DateInPast]
     [DataType(DataType.Date)]
     public DateTime? DateOfBirth { get; set; }
