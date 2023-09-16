@@ -41,6 +41,8 @@ namespace CSharpProject.Models
     public List<Photo> Photos { get; set; } = new();
     public int? LocationId { get; set; }
     public Location? Location { get; set; }
+    public List<Message> MessagesSent { get; set; }
+    public List<Message> MessagesReceived { get; set; }
   }
 
 
