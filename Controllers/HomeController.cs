@@ -85,7 +85,9 @@ public class HomeController : Controller
   [HttpGet("users/dashboard")]
   public IActionResult Dashboard()
   {
-    return View("Dashboard");
+    int userId = (int)HttpContext.Session.GetInt32("UserId");
+    User? user = _context.Users.FirstOrDefault(e => e.UserId == userId);
+    return View("Dashboard", user);
   }
 
   public IActionResult Privacy()
