@@ -44,6 +44,7 @@ public class ProfileController : Controller
       OldUser.DateOfBirth = newUser.DateOfBirth;
       OldUser.UpdatedAt = DateTime.Now;
       _context.SaveChanges();
+      HttpContext.Session.SetString("UserName", newUser.UserName);
       return RedirectToAction("SingleProfile", new {id = OldUser.UserId} );
     }
     return View("../Profile/EditProfile", OldUser);
