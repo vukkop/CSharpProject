@@ -35,14 +35,14 @@ namespace CSharpProject.Models
     public string? Occupation { get; set; }
     public string? Gender { get; set; }
     public string? RelationshipStatus { get; set; }
+    public string? Address { get; set; }
+    public string? City { get; set; }
+    public string? State { get; set; }
+    public string? Country { get; set; }
     public string ProfilePhoto { get; set; } = "~/assets/images/user/blank-profile-picture.jpg";
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
     public List<Photo> Photos { get; set; } = new();
-    public int? LocationId { get; set; }
-    public Location? Location { get; set; }
-    public List<Message> MessagesSent { get; set; }
-    public List<Message> MessagesReceived { get; set; }
   }
 
 
