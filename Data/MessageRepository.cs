@@ -1,5 +1,4 @@
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
+
 using CSharpProject.DTOs;
 using CSharpProject.Helpers;
 using CSharpProject.Interfaces;
@@ -11,11 +10,9 @@ namespace CSharpProject.Data
   public class MessageRepository : IMessageRepository
   {
     private readonly MyContext _context;
-    private readonly IMapper _mapper;
 
-    public MessageRepository(MyContext context, IMapper mapper)
+    public MessageRepository(MyContext context)
     {
-      _mapper = mapper;
       _context = context;
     }
     public void AddMessage(Message message)
@@ -33,29 +30,29 @@ namespace CSharpProject.Data
       return await _context.Messages.FindAsync(id);
     }
 
-    public async Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams)
-    {
-      var query = _context.Messages
-        .OrderByDescending(x => x.MessageSent)
-        .AsQueryable();
+    // public async Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams)
+    // {
+    //   var query = _context.Messages
+    //     .OrderByDescending(x => x.MessageSent)
+    //     .AsQueryable();
 
-      query = messageParams.Container switch
-      {
-        "Inbox" => query.Where(u => u.Recipient.UserName == messageParams.Username &&
-          u.RecipientDeleted == false),
-        "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username &&
-            u.SenderDeleted == false),
-        _ => query.Where(u => u.Recipient.UserName == messageParams.Username
-            && u.RecipientDeleted == false && u.DateRead == null)
-      };
+    //   query = messageParams.Container switch
+    //   {
+    //     "Inbox" => query.Where(u => u.Recipient.UserName == messageParams.Username &&
+    //       u.RecipientDeleted == false),
+    //     "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username &&
+    //         u.SenderDeleted == false),
+    //     _ => query.Where(u => u.Recipient.UserName == messageParams.Username
+    //         && u.RecipientDeleted == false && u.DateRead == null)
+    //   };
 
-      var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
+    //   var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
 
-      return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
+    //   return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
 
-    }
+    // }
 
-    public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUserName, string recipientUserName)
+    public IEnumerable<Message> GetMessageThread(string currentUserName, string recipientUserName)
     {
       var query = _context.Messages
     .Where(
@@ -78,7 +75,7 @@ namespace CSharpProject.Data
         }
       }
 
-      return await query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
+      return query.ToList();
     }
 
     public async Task<bool> SaveAllAsync()

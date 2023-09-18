@@ -1,0 +1,59 @@
+@model List<Message>
+@{
+int userId = (int)Context.Session.GetInt32("UserId");
+}
+<div class="row mt-3">
+  <div class="col-3">
+    <div class="card" style="height: 75vh;">
+      <div class="card-body">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" data-bs-toggle="tab" href="#Inbox" aria-selected="true" role="tab">Inbox</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link " data-bs-toggle="tab" href="#Outbox" aria-selected="true" role="tab">Outbox</a>
+          </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+          <div class="tab-pane fade active show" id="Inbox" role="tabpanel">
+            <table class="table table-hover mt-1">
+              <tbody>
+                @foreach (Message message in Model)
+                { if (message.SenderId != userId)
+                  {
+                    <tr>
+                      <td style="width: 35%;" class="py-2"><img class="rounded" style="height: 56px;" src="@Url.Content(message.Sender.ProfilePhoto)" alt="User Photo"></td>
+                      <td style="width: 65%;" class="px-2" scope="row">@message.SenderUsername</td>
+                    </tr>
+                  }
+                }
+              </tbody>
+            </table>
+          </div>
+          <div class="tab-pane fade" id="Outbox" role="tabpanel">
+            <table class="table table-hover mt-1">
+              <tbody>
+                @foreach (Message message in Model)
+                { if (message.RecipientId != userId)
+                  {
+                    <tr class="d-flex align-items-center">
+                      <td style="width: 35%;" class="py-2"><img class="rounded" style="height: 56px;" src="@Url.Content(message.Recipient.ProfilePhoto)" alt="User Photo"></td>
+                      <td style="width: 65%;" class="px-2" scope="row">@message.RecipientUsername</td>
+                    </tr>
+                  }
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-9">
+    @await Html.PartialAsync("../Shared/Partials/Message/_MessageThread.cshtml", Model)
+  </div>
+</div>
+
+
+
+
