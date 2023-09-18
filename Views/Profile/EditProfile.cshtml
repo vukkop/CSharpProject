@@ -1,1 +1,18 @@
-@await Html.PartialAsync("../Shared/Partials/Profile/_EditProfile")
+@model User
+@{
+    EditUser editedUser = new EditUser()
+    {
+        FirstName = Model.FirstName,
+        LastName = Model.LastName,
+        UserName = Model.UserName,
+        Occupation = Model.Occupation,
+        Gender = Model.Gender,
+        RelationshipStatus = Model.RelationshipStatus,
+        DateOfBirth = Model.DateOfBirth,
+        Address = Model.Address,
+        City = Model.City,
+        State = Model.State,
+        Country = Model.Country,
+    };
+}
+@await Html.PartialAsync("../Shared/Partials/Profile/_EditProfile", editedUser)

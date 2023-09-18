@@ -1,7 +1,8 @@
-@model User
+@model EditUser
 
-<form asp-action="UpdateProfile" asp-route-id="@Model.UserId" method="post" asp-controller="Profile">
-    <div class="row gap-3">
+<form asp-action="UpdateProfile" asp-route-id='@Context.Session.GetInt32("UserId")' method="post"
+    asp-controller="Profile">
+    <div class="row">
         <div class="col-4">
             <div class="mb-3 mt-5">
                 <label asp-for="FirstName">First Name</label>
@@ -18,11 +19,6 @@
                 <input asp-for="UserName" type="text" class="form-control">
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
-            @* <div class="mb-3">
-                <label asp-for="Location"></label>
-                <input asp-for="Location" type="text" class="form-control">
-                <span asp-validation-for="Location" class="text-danger"></span>
-            </div> *@
             <div class="mb-3">
                 <label asp-for="Occupation"></label>
                 <input asp-for="Occupation" type="text" class="form-control">
@@ -30,26 +26,20 @@
             </div>
         </div>
         <div class="col-4 mt-5">
-            @* <div class="mb-3">
-                <p>Pronouns</p>
-                <label asp-for="Gender">He/Him</label>
-                <input asp-for="Gender" type="checkbox" class="form-check-input">
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div> *@
-            @* <div class="mb-3">
-                <label asp-for="Gender">She/Her</label>
-                <input asp-for="Gender" type="checkbox" class="form-check-input">
-                <span asp-validation-for="Gender" class="text-danger"></span>
+            <div class="mb-3">
+                <label asp-for="Gender">Gender</label>
+                <select class="form-select" asp-for="Gender">
+                    <option value="" selected>Pronouns</option>
+                    <option value="He/Him">He/Him</option>
+                    <option value="She/Her">She/Her</option>
+                    <option value="They/Them">They/Them</option>
+                </select>
+                
             </div>
             <div class="mb-3">
-                <label asp-for="Gender">They/Them</label>
-                <input asp-for="Gender" type="checkbox" class="form-check-input">
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div> *@
-            <div class="mb-3">
                 <label asp-for="RelationshipStatus">Relationship Status</label>
-                <select asp-for="RelationshipStatus" class="form-select form-select-sm mb-3">
-                    <option selected>Choose an option</option>
+                <select asp-for="RelationshipStatus" class="form-select form-select mb-3">
+                    <option value="" selected>Choose an option</option>
                     <option value="Single">Single</option>
                     <option value="Taken">Taken</option>
                     <option value="Prefer not to answer">Prefer not to answer</option>
@@ -60,9 +50,29 @@
                 <input asp-for="DateOfBirth" type="date" class="form-control">
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
-            <button class="btn btn-success mt-5">Update</button>
         </div>
-        <div class="col-4">
+        <div class="col-4 mt-5">
+            <div class="mb-3">
+                <label asp-for="Address"></label>
+                <input asp-for="Address" type="text" class="form-control">
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="City"></label>
+                <input asp-for="City" type="text" class="form-control">
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="State"></label>
+                <input asp-for="State" type="text" class="form-control">
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Country"></label>
+                <input asp-for="Country" type="text" class="form-control">
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <button class="btn btn-success mt-5">Update</button>
         </div>
     </div>
 </form>

@@ -18,11 +18,8 @@ public class ProfileController : Controller
   }
   [SessionCheck]
   [HttpPost("profiles/{id}/update")]
-  public IActionResult UpdateProfile(User newUser, int id)
+  public IActionResult UpdateProfile(EditUser newUser, int id)
   {
-      System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-      System.Console.WriteLine(newUser.DateOfBirth);
-      System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     User? OldUser = _context.Users.FirstOrDefault(i => i.UserId == id);
     if (!ModelState.IsValid)
 {
@@ -33,16 +30,17 @@ public class ProfileController : Controller
 }
     if(ModelState.IsValid)
     {
-      System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-      System.Console.WriteLine(OldUser.FirstName);
-      System.Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
       OldUser.FirstName = newUser.FirstName;
       OldUser.LastName = newUser.LastName;
       OldUser.UserName = newUser.UserName;
       // OldUser.Location = newUser.Location;
       OldUser.Occupation = newUser.Occupation;
-      // OldUser.Gender = newUser.Gender;
+      OldUser.Gender = newUser.Gender;
       OldUser.RelationshipStatus = newUser.RelationshipStatus;
+      OldUser.Address = newUser.Address;
+      OldUser.City = newUser.City;
+      OldUser.State = newUser.State;
+      OldUser.Country = newUser.Country;
       OldUser.DateOfBirth = newUser.DateOfBirth;
       OldUser.UpdatedAt = DateTime.Now;
       _context.SaveChanges();
