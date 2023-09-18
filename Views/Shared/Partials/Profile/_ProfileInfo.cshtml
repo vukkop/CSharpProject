@@ -1,0 +1,80 @@
+@model User
+<div class="row mt-3">
+    <h2>@Model.FirstName @Model.LastName</h2>
+    <div class="col-5 mt-3">
+        <h5 class="mt-2">User name:
+            <div class="form-group">
+                <fieldset>
+                    <input class="form-control mt-1" id="readOnlyInput" type="text" placeholder="@Model.UserName"
+                        readonly="" disabled>
+                </fieldset>
+            </div>
+        </h5>
+        <h5 class="mt-3">Gender: 
+            <div class="form-group">
+                <fieldset>
+                    <input class="form-control mt-1" id="readOnlyInput" type="text" placeholder="@Model.Gender"
+                        readonly="" disabled>
+                </fieldset>
+            </div>
+        </h5>
+        <h5 class="mt-3">Occupation: 
+            <div class="form-group">
+                <fieldset>
+                    <input class="form-control mt-1" id="readOnlyInput" type="text" placeholder="@Model.Occupation"
+                        readonly="" disabled>
+                </fieldset>
+            </div>
+        </h5>
+        <h5 class="mt-3">Relationship Status: 
+            <div class="form-group">
+                <fieldset>
+                    <input class="form-control mt-1" id="readOnlyInput" type="text" placeholder="@Model.RelationshipStatus"
+                        readonly="" disabled>
+                </fieldset>
+            </div>
+        </h5>
+        <h5 class="mt-3">Date of birth: 
+            <div class="form-group">
+                <fieldset>
+                    <input class="form-control mt-1" id="readOnlyInput" type="text" placeholder='@Model.DateOfBirth.Value.ToString("MMM dd yyyy")'
+                        readonly="" disabled>
+                </fieldset>
+            </div>
+        </h5>
+    </div>
+    <div class="col-5 mt-3">
+        <h5 class="mt-2">Address:
+            <div class="form-group">
+                <fieldset>
+                    <input class="form-control mt-1" id="readOnlyInput" type="text" placeholder="@Model.Address"
+                        readonly="" disabled>
+                </fieldset>
+            </div>
+        </h5>
+        <h5 class="mt-3">City:
+            <div class="form-group">
+                <fieldset>
+                    <input class="form-control mt-1" id="readOnlyInput" type="text" placeholder="@Model.City"
+                        readonly="" disabled>
+                </fieldset>
+            </div>
+        </h5>
+        <h5 class="mt-3">State:
+            <div class="form-group">
+                <fieldset>
+                    <input class="form-control mt-1" id="readOnlyInput" type="text" placeholder="@Model.State"
+                        readonly="" disabled>
+                </fieldset>
+            </div>
+        </h5>
+        <h5 class="mt-3">Country:
+            <div class="form-group">
+                <fieldset>
+                    <input class="form-control mt-1" id="readOnlyInput" type="text" placeholder="@Model.Country"
+                        readonly="" disabled>
+                </fieldset>
+            </div>
+        </h5>
+    </div>
+</div>
