@@ -11,11 +11,11 @@
       </ul>
       <form asp-action="Login" asp-controller="Home" method="post" class="d-flex">
         <div class="me-sm-2">
-        <input asp-for="EmailLogin" class="form-control me-sm-2" placeholder="Email">
+        <input asp-for="EmailLogin" class="form-control me-sm-2" placeholder="Email" value="vv@email.com">
         <small><span asp-validation-for="EmailLogin" class="text-danger"></span></small>
         </div>
         <div class="me-sm-2">
-        <input asp-for="PasswordLogin" class="form-control me-sm-2" placeholder="Password">
+        <input asp-for="PasswordLogin" class="form-control me-sm-2" placeholder="Password" value="password">
         <small><span asp-validation-for="PasswordLogin" class="text-danger"></span></small>
         </div>
         <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="Login">

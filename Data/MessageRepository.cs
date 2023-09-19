@@ -75,7 +75,7 @@ namespace CSharpProject.Data
         }
       }
 
-      return query.ToList();
+      return query;
     }
 
     public async Task<bool> SaveAllAsync()

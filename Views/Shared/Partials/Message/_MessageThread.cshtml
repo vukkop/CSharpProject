@@ -4,34 +4,9 @@ int userId = (int)Context.Session.GetInt32("UserId");
 }
 
 <div class="card" style="height: 75vh;">
-  <div class="card-body">
-    <ul>
-      @foreach (Message m in Model)
-      {
-      <li>
-        <div>
-          <span class="float-end">
-            <img class="rounded-circle" style="height: 50px;" src="@Url.Content(m.Sender.ProfilePhoto)" alt="User Photo">
-          </span>
-          <div>
-            <div class="header">
-              <small class="text-muted">
-                <span class="fa fa-clock-o">@m.MessageSent</span>
-                @if(m.DateRead == null && m.SenderId != userId)
-                {
-                <span class="text-danger">(unread)</span>
-                }
-                @if(m.DateRead != null && m.SenderId != userId)
-                {
-                <span class="text-success">(read @m.DateRead)</span>
-                }
-              </small>
-            </div>
-            <p>@m.Content</p>
-          </div>
-        </div>
-      </li>
-      }
+  <div class="card-body" >
+    <ul id="threadView" class="list-unstyled">
+
     </ul>
   </div>
   <div class="card-footer">

@@ -1,4 +1,7 @@
 using System.Diagnostics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Xml;
 using AutoMapper;
 using CSharpProject.DTOs;
 using CSharpProject.Helpers;
@@ -22,17 +25,29 @@ public class MessageController : Controller
   }
 
   [HttpGet("messages")]
-  public ActionResult<IAsyncEnumerable<MessageDto>> Messages()
+  public ActionResult<IEnumerable<Message>> Messages()
   {
     var currentUserId = HttpContext.Session.GetInt32("UserId");
 
-    List<Message> Chats = _context.Messages
+    IEnumerable<Message> Chats = _context.Messages
       .Include(s => s.Sender)
       .Include(r => r.Recipient)
       .Where(e =>
         e.SenderId == currentUserId || e.RecipientId == currentUserId).ToList();
 
     return View("Messages", Chats);
+  }
+
+  [HttpGet("messages/{userName}/thread")]
+  public string MessageThread(string userName)
+  {
+    var currentUserName = HttpContext.Session.GetString("UserName");
+
+    IEnumerable<Message> messages = _messageRepository.GetMessageThread(currentUserName, userName);
+
+    string strJson = JsonSerializer.Serialize(messages);
+
+    return strJson;
   }
 
   // [HttpPost("messages/create")]

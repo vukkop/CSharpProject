@@ -43,6 +43,13 @@ namespace CSharpProject.Models
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
     public List<Photo> Photos { get; set; } = new();
+    public List<Message> MessagesSent { get; set; }
+    public List<Message> MessagesReceived { get; set; }
+
+    public static implicit operator User(string v)
+    {
+      throw new NotImplementedException();
+    }
   }
 
 
