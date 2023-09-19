@@ -4,7 +4,6 @@ function getMessageThread(userName, userId) {
   fetch(BaseUri + `/messages/${userName}/thread`)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       renderData(data, userId);
       return data;
     })
@@ -31,12 +30,12 @@ function renderData(dataArray, userId) {
                         m.MessageSent
                       )}</span>
                       ${
-                        m.DateRead == null && m.SenderId != userId
+                        !m.DateRead && m.SenderId !== userId
                           ? `<span class="text-danger">(unread)</span>`
                           : ""
                       }
                       ${
-                        m.DateRead != null && m.SenderId != userId
+                        m.DateRead != null && m.SenderId == userId
                           ? `<span class="text-success">(read ${timeAgo(
                               m.DateRead
                             )})</span>`

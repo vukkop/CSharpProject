@@ -4,8 +4,6 @@
   var firstItemsInGroup = from b in Model
     group b by b.SenderUsername into g
     select g.First();
-
-
 }
 
 <div class="row mt-3">

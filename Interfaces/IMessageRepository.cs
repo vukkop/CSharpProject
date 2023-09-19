@@ -12,8 +12,6 @@ namespace CSharpProject.Interfaces
   {
     void AddMessage(Message message);
     void DeleteMessage(Message message);
-    Task<Message> GetMessage(int id);
-    // Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams);
     IEnumerable<Message> GetMessageThread(string currentUserName, string recipientUserName);
     Task<bool> SaveAllAsync();
 

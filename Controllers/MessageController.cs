@@ -50,36 +50,38 @@ public class MessageController : Controller
     return strJson;
   }
 
-  // [HttpPost("messages/create")]
-  // public async Task<ActionResult<MessageDto>> CreateMeassage(CreateMessageDto createMessageDto)
-  // {
-  //   var username = HttpContext.Session.GetString("UserName");
+  [HttpPost("messages/create")]
+  public async Task<ActionResult<Message>> CreateMeassage(CreateMessageDto createMessageDto)
+  {
+    var username = HttpContext.Session.GetString("UserName");
 
-  //   if (username.ToLower() == createMessageDto.RecipientUsername.ToLower())
-  //   {
-  //     return BadRequest("You cannot send messages to yourself");
-  //   }
+    if (username.ToLower() == createMessageDto.RecipientUsername.ToLower())
+    {
+      return BadRequest("You cannot send messages to yourself");
+    }
 
-  //   var sender = _context.Users.FirstOrDefault(e => e.UserName == username);
-  //   var recipient = _context.Users.FirstOrDefault(e => e.UserName == createMessageDto.RecipientUsername);
+    var sender = _context.Users.FirstOrDefault(e => e.UserName == username);
+    var recipient = _context.Users.FirstOrDefault(e => e.UserName == createMessageDto.RecipientUsername);
 
-  //   if (recipient == null) return NotFound();
+    if (recipient == null) return NotFound();
 
-  //   var message = new Message
-  //   {
-  //     Sender = sender,
-  //     Recipient = recipient,
-  //     SenderUsername = sender.UserName,
-  //     RecipientUsername = recipient.UserName,
-  //     Content = createMessageDto.Content
-  //   };
+    var message = new Message
+    {
+      Sender = sender,
+      Recipient = recipient,
+      SenderUsername = sender.UserName,
+      SenderProfilePhoto = sender.ProfilePhoto,
+      RecipientUsername = recipient.UserName,
+      RecipientProfilePhoto = recipient.ProfilePhoto,
+      Content = createMessageDto.Content
+    };
 
-  //   _messageRepository.AddMessage(message);
+    _messageRepository.AddMessage(message);
 
-  //   if (await _messageRepository.SaveAllAsync()) return Ok(_mapper.Map<MessageDto>(message));
+    if (await _messageRepository.SaveAllAsync()) return message;
 
-  //   return BadRequest("Failed to send message");
-  // }
+    return BadRequest("Failed to send message");
+  }
 
   // [HttpGet]
   // public async Task<ActionResult<PagedList<MessageDto>>> GetMessagesForUser([FromQuery] MessageParams messageParams)

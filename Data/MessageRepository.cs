@@ -25,33 +25,6 @@ namespace CSharpProject.Data
       _context.Messages.Remove(message);
     }
 
-    public async Task<Message> GetMessage(int id)
-    {
-      return await _context.Messages.FindAsync(id);
-    }
-
-    // public async Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams)
-    // {
-    //   var query = _context.Messages
-    //     .OrderByDescending(x => x.MessageSent)
-    //     .AsQueryable();
-
-    //   query = messageParams.Container switch
-    //   {
-    //     "Inbox" => query.Where(u => u.Recipient.UserName == messageParams.Username &&
-    //       u.RecipientDeleted == false),
-    //     "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username &&
-    //         u.SenderDeleted == false),
-    //     _ => query.Where(u => u.Recipient.UserName == messageParams.Username
-    //         && u.RecipientDeleted == false && u.DateRead == null)
-    //   };
-
-    //   var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
-
-    //   return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
-
-    // }
-
     public IEnumerable<Message> GetMessageThread(string currentUserName, string recipientUserName)
     {
       var query = _context.Messages
