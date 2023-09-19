@@ -1,6 +1,10 @@
 ﻿const BaseUri = "http://localhost:5211";
+var recipientUsername = "";
+var senderId = "";
 
 function getMessageThread(userName, userId) {
+  recipientUsername = userName;
+  senderId = userId;
   fetch(BaseUri + `/messages/${userName}/thread`)
     .then((response) => response.json())
     .then((data) => {
@@ -50,6 +54,43 @@ function renderData(dataArray, userId) {
     container.appendChild(li);
   });
 }
+
+var form = document.getElementById("newMessageForm");
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  if (recipientUsername === "") return;
+
+  var contentInput = document.getElementById("Content");
+  var content = contentInput.value;
+
+  var newMessage = {
+    Content: content,
+    RecipientUsername: recipientUsername,
+  };
+
+  var jsonMessage = JSON.stringify(newMessage);
+
+  fetch(BaseUri + `/messages/create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: jsonMessage,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data.message);
+      contentInput.value = "";
+      getMessageThread(recipientUsername, senderId);
+    })
+    .catch((error) => console.log(error));
+});
 
 function absolutePath(relativePath) {
   return BaseUri + relativePath.replace("~", "");

@@ -1,15 +1,14 @@
-@model List<Message>
 @{
-int userId = (int)Context.Session.GetInt32("UserId");
+  int userId = (int)Context.Session.GetInt32("UserId");
 }
 
 <div class="card" style="height: 75vh;">
-  <div class="card-body" >
+  <div class="card-body overflow-y-scroll" style="height: 75vh;">
     <ul id="threadView" class="list-unstyled">
 
     </ul>
   </div>
   <div class="card-footer">
-    @await Html.PartialAsync("./_MessageForm.cshtml")
+    @await Html.PartialAsync("./_MessageForm.cshtml", new CreateMessage())
   </div>
 </div>

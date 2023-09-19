@@ -1,5 +1,3 @@
-
-using CSharpProject.DTOs;
 using CSharpProject.Helpers;
 using CSharpProject.Interfaces;
 using CSharpProject.Models;
@@ -46,6 +44,7 @@ namespace CSharpProject.Data
         {
           message.DateRead = DateTime.Now;
         }
+        _context.SaveChangesAsync();
       }
 
       return query;

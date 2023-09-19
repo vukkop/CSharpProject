@@ -1,6 +1,6 @@
-<form asp-action="CreateMeassage" >
+<form id="newMessageForm" method="POST" >
   <div class="input-group">
-    <input type="text" class="form-control input-sm" placeholder="Send message">
+    <input name="Content" id="Content" for="Content" type="text" class="form-control input-sm" placeholder="Send message">
     <div class="input-group-append">
       <button class="btn btn-success" type="submit">Send</button>
     </div>

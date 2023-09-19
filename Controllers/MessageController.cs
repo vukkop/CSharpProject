@@ -1,10 +1,5 @@
 using System.Diagnostics;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Xml;
-using AutoMapper;
-using CSharpProject.DTOs;
-using CSharpProject.Helpers;
 using CSharpProject.Interfaces;
 using CSharpProject.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -51,17 +46,18 @@ public class MessageController : Controller
   }
 
   [HttpPost("messages/create")]
-  public async Task<ActionResult<Message>> CreateMeassage(CreateMessageDto createMessageDto)
+  public async Task<IActionResult> CreateMessage([FromBody] CreateMessage createMessage)
   {
+
     var username = HttpContext.Session.GetString("UserName");
 
-    if (username.ToLower() == createMessageDto.RecipientUsername.ToLower())
+    if (username.ToLower() == createMessage.RecipientUsername.ToLower())
     {
       return BadRequest("You cannot send messages to yourself");
     }
 
     var sender = _context.Users.FirstOrDefault(e => e.UserName == username);
-    var recipient = _context.Users.FirstOrDefault(e => e.UserName == createMessageDto.RecipientUsername);
+    var recipient = _context.Users.FirstOrDefault(e => e.UserName == createMessage.RecipientUsername);
 
     if (recipient == null) return NotFound();
 
@@ -69,16 +65,18 @@ public class MessageController : Controller
     {
       Sender = sender,
       Recipient = recipient,
+      SenderId = sender.UserId,
       SenderUsername = sender.UserName,
       SenderProfilePhoto = sender.ProfilePhoto,
+      RecipientId = recipient.UserId,
       RecipientUsername = recipient.UserName,
       RecipientProfilePhoto = recipient.ProfilePhoto,
-      Content = createMessageDto.Content
+      Content = createMessage.Content
     };
 
     _messageRepository.AddMessage(message);
 
-    if (await _messageRepository.SaveAllAsync()) return message;
+    if (await _messageRepository.SaveAllAsync()) return Ok(new { message = "Message sent" });
 
     return BadRequest("Failed to send message");
   }

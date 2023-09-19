@@ -25,7 +25,7 @@
                 @foreach (Message message in firstItemsInGroup)
                 { if (message.SenderId != userId)
                   {
-                    <tr class="pointer" onclick="getMessageThread('@message.SenderUsername', '@userId')">
+                    <tr class="pointer"  onclick="getMessageThread('@message.SenderUsername', '@userId')">
                       <td style="width: 35%;" class="py-2"><img class="rounded" style="height: 56px;" src="@Url.Content(message.Sender.ProfilePhoto)" alt="User Photo"></td>
                       <td style="width: 65%;" class="px-2" scope="row">@message.SenderUsername</td>
                     </tr>
@@ -40,7 +40,7 @@
                 @foreach (Message message in firstItemsInGroup)
                 { if (message.RecipientId != userId)
                   {
-                    <tr class="d-flex align-items-center">
+                    <tr class="pointer" onclick="getMessageThread('@message.SenderUsername', '@userId')" class="d-flex align-items-center">
                       <td style="width: 35%;" class="py-2"><img class="rounded" style="height: 56px;" src="@Url.Content(message.Recipient.ProfilePhoto)" alt="User Photo"></td>
                       <td style="width: 65%;" class="px-2" scope="row">@message.RecipientUsername</td>
                     </tr>
