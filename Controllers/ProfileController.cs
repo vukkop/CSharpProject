@@ -60,8 +60,21 @@ public class ProfileController : Controller
   [HttpGet("profiles/{id}")]
   public IActionResult SingleProfile(int id)
   {
-    User? User = _context.Users.FirstOrDefault(e => e.UserId == id);
+    User? User = _context.Users.Include(e => e.MyPosts).ThenInclude(c => c.CommentsOnPost).ThenInclude(i => i.Commenter).OrderByDescending(a => a.CreatedAt).ToList().FirstOrDefault(e => e.UserId == id);
     return View("SingleProfile", User);
   }
+
+  // [SessionCheck]
+  // [HttpGet("profiles/posts")]
+  // public IActionResult UserPosts(int id)
+  // {
+  //     ViewBag.Error = 0;
+  //     MyViewModel MyModel = new MyViewModel()
+  //     {
+  //         LoggedInUser = _context.Users.FirstOrDefault(u => u.UserId == (int)HttpContext.Session.GetInt32("UserId")),
+  //         AllPosts = _context.Posts.Include(w => w.Writer).Include(c => c.CommentsOnPost).ThenInclude(c => c.Commenter).OrderByDescending(a => a.CreatedAt).ToList()
+  //     };
+  //     return View(MyModel);
+  // }
 
 }
