@@ -26,6 +26,9 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Welcome @Context.Session.GetString("UserName")</a>
           <div class="dropdown-menu">
+            <form asp-action="SingleProfile" asp-route-id='@Context.Session.GetInt32("UserId")' asp-controller="Profile" method="get" class="d-flex align-items-center">
+              <button type="submit" class="dropdown-item"> View Profile</button>
+            </form>
             <form asp-action="EditProfile" asp-route-id='@Context.Session.GetInt32("UserId")' asp-controller="Profile" method="get" class="d-flex align-items-center">
               <button type="submit" class="dropdown-item"> Edit Profile</button>
             </form>
