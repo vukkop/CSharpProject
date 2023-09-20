@@ -20,17 +20,22 @@ public class MessageController : Controller
   }
 
   [HttpGet("messages")]
-  public ActionResult<IEnumerable<Message>> Messages()
+  public IActionResult Messages()
   {
     var currentUserId = HttpContext.Session.GetInt32("UserId");
-
-    IEnumerable<Message> Chats = _context.Messages
+    ViewBag.Error = 0;
+    MessagesViewModel MessagesViewModel = new MessagesViewModel()
+    {
+      Messages = _context.Messages
       .Include(s => s.Sender)
       .Include(r => r.Recipient)
       .Where(e =>
-        e.SenderId == currentUserId || e.RecipientId == currentUserId).ToList();
+        e.SenderId == currentUserId || e.RecipientId == currentUserId).ToList(),
+      AllUsers = _context.Users.Where(e => e.UserId != currentUserId).ToList()
+    };
 
-    return View("Messages", Chats);
+
+    return View("Messages", MessagesViewModel);
   }
 
   [HttpGet("messages/{userName}/thread")]
@@ -81,32 +86,11 @@ public class MessageController : Controller
     return BadRequest("Failed to send message");
   }
 
-  // [HttpGet]
-  // public async Task<ActionResult<PagedList<MessageDto>>> GetMessagesForUser([FromQuery] MessageParams messageParams)
-  // {
-  //   messageParams.Username = HttpContext.Session.GetString("UserName");
-  //   var messages = await _messageRepository.GetMessagesForUser(messageParams);
-
-  //   return messages;
-  // }
-
-
   [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
   public IActionResult Error()
   {
     return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
   }
-
-  // [HttpGet("messages/{username}/thread")]
-  // public ActionResult<IAsyncEnumerable<MessageDto>> GetMessageThread(string username)
-  // {
-  //   var currentUsername = HttpContext.Session.GetString("UserName");
-
-  //   IEnumerable<Message> messageThread = _messageRepository.GetMessageThread(currentUsername, username);
-
-  //   return View("Messages", messageThread);
-  // }
-
 
 }
 

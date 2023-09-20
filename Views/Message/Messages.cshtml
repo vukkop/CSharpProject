@@ -1,7 +1,7 @@
-@model IEnumerable<Message>
+@model MessagesViewModel
 @{
   int userId = (int)Context.Session.GetInt32("UserId");
-  var firstItemsInGroup = from b in Model
+  var firstItemsInGroup = from b in Model.Messages
     group b by b.SenderUsername into g
     select g.First();
 }
@@ -9,7 +9,7 @@
 <div class="row mt-3">
   <div class="col-3">
     <div class="card" style="height: 75vh;">
-      <div class="card-body">
+      <div class="card-body overflow-y-auto">
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item" role="presentation">
             <a class="nav-link active" data-bs-toggle="tab" href="#Inbox" aria-selected="true" role="tab">Inbox</a>
@@ -38,9 +38,9 @@
             <table class="table table-hover mt-1">
               <tbody>
                 @foreach (Message message in firstItemsInGroup)
-                { if (message.RecipientId != userId)
+                { if (message.SenderId == userId)
                   {
-                    <tr class="pointer" onclick="getMessageThread('@message.SenderUsername', '@userId')" class="d-flex align-items-center">
+                    <tr class="pointer" onclick="getMessageThread('@message.SenderUsername', '@userId')">
                       <td style="width: 35%;" class="py-2"><img class="rounded" style="height: 56px;" src="@Url.Content(message.Recipient.ProfilePhoto)" alt="User Photo"></td>
                       <td style="width: 65%;" class="px-2" scope="row">@message.RecipientUsername</td>
                     </tr>
@@ -50,6 +50,9 @@
             </table>
           </div>
         </div>
+      </div>
+      <div class="card-footer text-center">
+        @await Html.PartialAsync("../Shared/Partials/Message/_MessageNew.cshtml", Model.AllUsers)
       </div>
     </div>
   </div>

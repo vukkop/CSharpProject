@@ -1,8 +1,16 @@
 ﻿const BaseUri = "http://localhost:5211";
-var recipientUsername = "";
+var recipientUsername;
 var senderId = "";
 
 function getMessageThread(userName, userId) {
+  // const rows = document.querySelectorAll(".table-hover tbody tr");
+  // rows.forEach((row) => {
+  //   row.classList.remove("table-success");
+  // });
+
+  // const clickedRow = event.currentTarget;
+  // clickedRow.classList.add("table-success");
+
   recipientUsername = userName;
   senderId = userId;
   fetch(BaseUri + `/messages/${userName}/thread`)
@@ -15,6 +23,7 @@ function getMessageThread(userName, userId) {
 }
 
 function renderData(dataArray, userId) {
+  const cardBody = document.getElementById("cardBody");
   const container = document.getElementById("threadView");
   container.innerHTML = "";
 
@@ -53,12 +62,14 @@ function renderData(dataArray, userId) {
         `;
     container.appendChild(li);
   });
+  requestAnimationFrame(() => {
+    cardBody.scrollTop = cardBody.scrollHeight;
+  });
 }
 
 var form = document.getElementById("newMessageForm");
 form.addEventListener("submit", function (event) {
   event.preventDefault();
-
   if (recipientUsername === "") return;
 
   var contentInput = document.getElementById("Content");
