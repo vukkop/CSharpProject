@@ -3,13 +3,16 @@ var recipientUsername;
 var senderId = "";
 
 function getMessageThread(userName, userId) {
-  // const rows = document.querySelectorAll(".table-hover tbody tr");
-  // rows.forEach((row) => {
-  //   row.classList.remove("table-success");
-  // });
+  const rows = document.querySelectorAll(".table-hover tbody tr");
+  rows.forEach((row) => {
+    row.classList.remove("table-success");
+  });
 
-  // const clickedRow = event.currentTarget;
-  // clickedRow.classList.add("table-success");
+  const clickedRow = document.getElementById(userName);
+  console.log(clickedRow);
+  if (clickedRow) {
+    clickedRow.classList.add("table-success");
+  }
 
   recipientUsername = userName;
   senderId = userId;

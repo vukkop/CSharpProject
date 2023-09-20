@@ -34,7 +34,6 @@ public class MessageController : Controller
       AllUsers = _context.Users.Where(e => e.UserId != currentUserId).ToList()
     };
 
-
     return View("Messages", MessagesViewModel);
   }
 
@@ -91,7 +90,6 @@ public class MessageController : Controller
   {
     return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
   }
-
 }
 
 
