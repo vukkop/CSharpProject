@@ -45,6 +45,8 @@ namespace CSharpProject.Models
     public List<Photo> Photos { get; set; } = new();
     public List<Message> MessagesSent { get; set; }
     public List<Message> MessagesReceived { get; set; }
+    public List<Post> MyPosts { get; set; } = new List<Post>();
+    public List<Comment> MyComments { get; set; } = new List<Comment>();
 
     public static implicit operator User(string v)
     {

@@ -81,14 +81,70 @@ public class HomeController : Controller
   }
 
 
+  // [SessionCheck]
+  // [HttpGet("users/dashboard")]
+  // public IActionResult Dashboard()
+  // {
+  //   int userId = (int)HttpContext.Session.GetInt32("UserId");
+  //   User? user = _context.Users.FirstOrDefault(e => e.UserId == userId);
+  //   return View("Dashboard", user);
+  // }
+
   [SessionCheck]
-  [HttpGet("users/dashboard")]
+  [HttpGet("dashboard")]
   public IActionResult Dashboard()
   {
-    int userId = (int)HttpContext.Session.GetInt32("UserId");
-    User? user = _context.Users.FirstOrDefault(e => e.UserId == userId);
-    return View("Dashboard", user);
+      ViewBag.Error = 0;
+      MyViewModel MyModel = new MyViewModel()
+      {
+          LoggedInUser = _context.Users.FirstOrDefault(u => u.UserId == (int)HttpContext.Session.GetInt32("UserId")),
+          AllPosts = _context.Posts.Include(w => w.Writer).Include(c => c.CommentsOnPost).ThenInclude(c => c.Commenter).OrderByDescending(a => a.CreatedAt).ToList()
+      };
+      return View(MyModel);
   }
+  
+  
+
+  [HttpPost("comments/create/{PostId}")]
+    public IActionResult CreateComment(Comment newComment, int PostId)
+    {
+        if(ModelState.IsValid)
+        {
+            newComment.UserId = (int)HttpContext.Session.GetInt32("UserId");
+            newComment.PostId = PostId;
+            _context.Add(newComment);
+            _context.SaveChanges();
+            return RedirectToAction("Dashboard");
+        } else {
+            ViewBag.Error = PostId;
+            MyViewModel MyModel = new MyViewModel()
+            {
+                LoggedInUser = _context.Users.FirstOrDefault(u => u.UserId == (int)HttpContext.Session.GetInt32("UserId")),
+                AllPosts = _context.Posts.Include(w => w.Writer).Include(c => c.CommentsOnPost).ThenInclude(c => c.Commenter).OrderByDescending(a => a.CreatedAt).ToList()
+            };
+            return View("Dashboard", MyModel);
+        }
+    }
+
+  [SessionCheck]
+    [HttpPost("posts/create")]
+    public IActionResult CreatePost(Post newPost)
+    {
+        if(ModelState.IsValid)
+        {
+            newPost.UserId = (int)HttpContext.Session.GetInt32("UserId");
+            _context.Add(newPost);
+            _context.SaveChanges();
+            return RedirectToAction("Dashboard");
+        } else {
+            MyViewModel MyModel = new MyViewModel()
+            {
+                LoggedInUser = _context.Users.FirstOrDefault(u => u.UserId == (int)HttpContext.Session.GetInt32("UserId")),
+                AllPosts = _context.Posts.Include(w => w.Writer).Include(c => c.CommentsOnPost).ThenInclude(c => c.Commenter).OrderByDescending(a => a.CreatedAt).ToList()
+            };
+            return View("Dashboard", MyModel);
+        }
+    }  
 
   public IActionResult Privacy()
   {

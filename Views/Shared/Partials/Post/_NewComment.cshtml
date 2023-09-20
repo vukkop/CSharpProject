@@ -1,0 +1,18 @@
+    
+@* @model MyViewModel
+
+@foreach (Post p in Model.AllPosts)
+{
+    <form asp-action="CreateComment" asp-route-PostId="@p.PostId" method="post">
+        <div class="mb-3">
+            <textarea asp-for="NewComment.MyComment" class="form-control"></textarea>
+            @if (ViewBag.Error == p.PostId)
+            {
+                <span asp-validation-for="NewComment.MyComment" class="text-danger"></span>
+            }
+        </div>
+        <div class="mb-3">
+            <input type="submit" value="Comment" class="btn btn-info">
+        </div>
+    </form>
+} *@

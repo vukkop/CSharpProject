@@ -7,9 +7,9 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" href="dashboard">Home
-            <span class="visually-hidden">(current)</span>
-          </a>
+          <form asp-action="Dashboard" asp-controller="Home" method="get">
+            <button type="submit" class="nav-link">HOME</button>
+          </form>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Connections</a>
