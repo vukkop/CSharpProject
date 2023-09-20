@@ -43,6 +43,8 @@ namespace CSharpProject.Models
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
     public List<Photo> Photos { get; set; } = new();
+    public List<Post> MyPosts {get;set;} = new List<Post>();
+    public List<Comment> MyComments {get;set;} = new List<Comment>();
   }
 
 

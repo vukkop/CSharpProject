@@ -1,1 +1,21 @@
-<h1>This is a posts partial</h1>
+@model User
+@foreach(Post m in Model.MyPosts)
+{
+    <div class="card mt-3">
+        <div class="card-body">
+        
+
+    <h5>@m.Writer.FirstName @m.Writer.LastName - <small class="text-muted">@m.CreatedAt.ToString("MMM dd, yyy - h:mm tt")</small></h5>
+    <p class="p-2">@m.MyPost</p>
+    <div class="ps-4">
+        @foreach(Comment c in m.CommentsOnPost)
+        {
+            <h6>@c.Commenter.FirstName @c.Commenter.LastName - <small class="text-muted"> @c.CreatedAt.ToString("MMM dd, yyy - h:mm tt")</small></h6>
+            <p>@c.MyComment</p>
+        }
+        @await Html.PartialAsync("../Post/_NewComment.cshtml")
+    </div>
+        </div>
+
+    </div>
+}

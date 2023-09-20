@@ -1,19 +1,25 @@
 @model User
 <div class="row">
     <div class="card mt-3 col-4" style="width: 18rem;">
-        <img src='@Url.Content(Context.Session.GetString("UserPhoto"))' class="card-img-top" alt="Profile Photo">
+        <img src='@Url.Content(Context.Session.GetString("UserPhoto"))' class="card-img-top mt-2" alt="Profile Photo">
         <div class="card-body">
             <h3 class="card-title">@Model.FirstName @Model.LastName</h3>
             <h5 class="mt-4">@Model.Gender</h5>
             <h5 class="mt-4">@Model.Occupation</h5>
-            <h5 class="mt-4">@Model.DateOfBirth.Value.ToString("MMM dd yyyy")</h5>
-            <h5 class="mt-4">@Model.City, @Model.State</h5>
+            @{
+                if(@Model.DateOfBirth.HasValue)
+                {
+                    <h5 class="mt-4">@Model.DateOfBirth.Value.ToString("MMM dd yyyy")</h5>
+                }
+            }
+            <h5 class="mt-4">@Model.City</h5>
+            <h5 class="mt-4">@Model.State</h5>
         </div>
     </div>
     <div class="col-8 mt-3">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link active" data-bs-toggle="tab" href="#home" aria-selected="true" role="tab">Posts</a>
+                <a class="nav-link active" data-bs-toggle="tab" href="#home" aria-selected="true" role="tab">My Posts</a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" data-bs-toggle="tab" href="#profile" aria-selected="false" role="tab"
@@ -30,7 +36,7 @@
         </ul>
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active show" id="home" role="tabpanel">
-                @await Html.PartialAsync("../Shared/Partials/Profile/_Posts")
+                @await Html.PartialAsync("../Shared/Partials/Profile/_Posts", Model)
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel">
                 @await Html.PartialAsync("../Shared/Partials/Profile/_ProfileInfo")
