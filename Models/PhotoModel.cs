@@ -12,7 +12,8 @@ namespace CSharpProject.Models
     [Key]
     public int PhotoId { get; set; }
     public string? PhotoTitle { get; set; }
-    public string PhotoURL { get; set; }
+    public string PhotoUrl { get; set; }
+    public string PublicId { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
     public int UserId { get; set; }

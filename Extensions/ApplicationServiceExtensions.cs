@@ -1,5 +1,7 @@
 using CSharpProject.Data;
+using CSharpProject.Helpers;
 using CSharpProject.Interfaces;
+using CSharpProject.Services;
 
 namespace CSharpProject.Extensions
 {
@@ -9,6 +11,8 @@ namespace CSharpProject.Extensions
         IConfiguration config)
     {
       services.AddScoped<IMessageRepository, MessageRepository>();
+      services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+      services.AddScoped<IPhotoService, PhotoService>();
 
       return services;
     }
