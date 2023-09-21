@@ -1,0 +1,77 @@
+@model List<User>
+
+<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#NewMessageModal">
+  <i class="fa-solid fa-plus"></i> New Message
+</button>
+
+<div class="modal fade" id="NewMessageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">New Message</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form id="createNewMessage" method="POST" >
+            <div class="mb-3">
+                <label for="RecipientUsername"></label>
+                <input required name="RecipientUsername" id="RecipientUsername" list="datalistOptions" type="text" class="form-control input-sm" placeholder="Select Recipient">
+                <datalist id="datalistOptions">
+                  @foreach (User u in Model)
+                  {
+                    <option value="@u.UserName"></option>
+                  }y
+                </datalist>
+            </div>
+            <div class="input-group">
+              <input required name="Content" id="NewContent" type="text" class="form-control input-sm" placeholder="Send message">
+              <div class="input-group-append">
+                <button class="btn btn-success" type="submit" data-bs-dismiss="modal">Send</button>
+              </div>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var form = document.getElementById("createNewMessage");
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  var recipientUsernameInput = document.getElementById("RecipientUsername")
+  var recipientUsername = recipientUsernameInput.value.trim()
+  if (recipientUsername === "") return;
+
+  var contentInput = document.getElementById("NewContent");
+  var content = contentInput.value;
+
+  var newMessage = {
+    Content: content,
+    RecipientUsername: recipientUsername,
+  };
+
+  var jsonMessage = JSON.stringify(newMessage);
+
+  fetch(BaseUri + `/messages/create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: jsonMessage,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data.message);
+      recipientUsernameInput.value = ""
+      contentInput.value = "";
+      getMessageThread(recipientUsername, senderId);
+    })
+    .catch((error) => console.log(error));
+});
+</script>

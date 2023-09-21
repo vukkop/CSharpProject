@@ -1,0 +1,14 @@
+@{
+  int userId = (int)Context.Session.GetInt32("UserId");
+}
+
+<div class="card" style="height: 75vh;">
+  <div id="cardBody" class="card-body overflow-y-auto" onload="threadView.scrollby(0,100)" style="height: 75vh;">
+    <ul id="threadView" class="list-unstyled">
+
+    </ul>
+  </div>
+  <div class="card-footer">
+    @await Html.PartialAsync("./_MessageForm.cshtml", new CreateMessage())
+  </div>
+</div>

@@ -1,3 +1,4 @@
+using CSharpProject.Extensions;
 using CSharpProject.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,7 @@ builder.Services.AddDbContext<MyContext>(options =>
 {
   options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 

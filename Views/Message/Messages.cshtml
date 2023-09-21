@@ -1,0 +1,61 @@
+@model MessagesViewModel
+@{
+  int userId = (int)Context.Session.GetInt32("UserId");
+
+  Dictionary<string, List<Message>> chats = new();
+  foreach (Message m in Model.Messages)
+  {
+      string chatKey = "";
+
+      if (m.SenderId == userId || m.RecipientId == userId)
+      {
+        if (m.SenderId == userId)
+        {
+          chatKey = m.RecipientUsername;
+          m.SenderProfilePhoto = m.RecipientProfilePhoto;
+
+        }else
+        {
+          chatKey = m.SenderUsername;
+          m.RecipientProfilePhoto = m.SenderProfilePhoto;
+        }
+
+          if (!chats.ContainsKey(chatKey))
+          {
+              chats[chatKey] = new List<Message>();
+          }
+
+          chats[chatKey].Add(m);
+      }
+  }
+}
+
+<div class="row mt-3">
+  <div class="col-3">
+    <div class="card" style="height: 75vh;">
+      <div class="card-body overflow-y-auto">
+            <table class="table table-hover mt-1">
+              <tbody>
+                @foreach (KeyValuePair<string, List<Message>> chat in chats)
+                  {
+                    <tr class="pointer" id="@chat.Key"  onclick="getMessageThread('@chat.Key', '@userId')">
+                      <td style="width: 35%;" class="py-2"><img class="rounded" style="height: 56px;" src="@Url.Content(chat.Value[0].RecipientProfilePhoto)" alt="User Photo"></td>
+                      <td style="width: 65%;" class="px-2" scope="row">@chat.Key</td>
+                    </tr>
+                  }
+              </tbody>
+            </table>
+      </div>
+      <div class="card-footer text-center">
+        @await Html.PartialAsync("../Shared/Partials/Message/_MessageNew.cshtml", Model.AllUsers)
+      </div>
+    </div>
+  </div>
+  <div class="col-9">
+    @await Html.PartialAsync("../Shared/Partials/Message/_MessageThread.cshtml")
+  </div>
+</div>
+
+
+
+
