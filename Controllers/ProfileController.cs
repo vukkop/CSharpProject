@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using CSharpProject.Interfaces;
 using CSharpProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,28 +8,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CSharpProject.Controllers;
 
+[SessionCheck]
 public class ProfileController : Controller
 {
   private readonly ILogger<ProfileController> _logger;
   private MyContext _context;
-  public ProfileController(ILogger<ProfileController> logger, MyContext context)
+  private readonly IPhotoService _photoService;
+  public ProfileController(ILogger<ProfileController> logger, MyContext context, IPhotoService photoService)
   {
+    _photoService = photoService;
     _logger = logger;
     _context = context;
   }
-  [SessionCheck]
   [HttpPost("profiles/{id}/update")]
   public IActionResult UpdateProfile(EditUser newUser, int id)
   {
     User? OldUser = _context.Users.FirstOrDefault(i => i.UserId == id);
     if (!ModelState.IsValid)
-{
-    var message = string.Join(" | ", ModelState.Values
-        .SelectMany(v => v.Errors)
-        .Select(e => e.ErrorMessage));
-    Console.WriteLine(message);
-}
-    if(ModelState.IsValid)
+    {
+      var message = string.Join(" | ", ModelState.Values
+          .SelectMany(v => v.Errors)
+          .Select(e => e.ErrorMessage));
+      Console.WriteLine(message);
+    }
+    if (ModelState.IsValid)
     {
       OldUser.FirstName = newUser.FirstName;
       OldUser.LastName = newUser.LastName;
@@ -45,7 +48,7 @@ public class ProfileController : Controller
       OldUser.UpdatedAt = DateTime.Now;
       _context.SaveChanges();
       HttpContext.Session.SetString("UserName", newUser.UserName);
-      return RedirectToAction("SingleProfile", new {id = OldUser.UserId} );
+      return RedirectToAction("SingleProfile", new { id = OldUser.UserId });
     }
     return View("../Profile/EditProfile", OldUser);
   }
@@ -56,25 +59,39 @@ public class ProfileController : Controller
     User? UserToEdit = _context.Users.FirstOrDefault(e => e.UserId == id);
     return View("EditProfile", UserToEdit);
   }
-  
+
   [HttpGet("profiles/{id}")]
   public IActionResult SingleProfile(int id)
   {
-    User? User = _context.Users.Include(e => e.MyPosts).ThenInclude(c => c.CommentsOnPost).ThenInclude(i => i.Commenter).OrderByDescending(a => a.CreatedAt).ToList().FirstOrDefault(e => e.UserId == id);
+    User? User = _context.Users.Include(p => p.Photos).Include(e => e.MyPosts).ThenInclude(c => c.CommentsOnPost).ThenInclude(i => i.Commenter).OrderByDescending(a => a.CreatedAt).ToList().FirstOrDefault(e => e.UserId == id);
     return View("SingleProfile", User);
   }
 
-  // [SessionCheck]
-  // [HttpGet("profiles/posts")]
-  // public IActionResult UserPosts(int id)
-  // {
-  //     ViewBag.Error = 0;
-  //     MyViewModel MyModel = new MyViewModel()
-  //     {
-  //         LoggedInUser = _context.Users.FirstOrDefault(u => u.UserId == (int)HttpContext.Session.GetInt32("UserId")),
-  //         AllPosts = _context.Posts.Include(w => w.Writer).Include(c => c.CommentsOnPost).ThenInclude(c => c.Commenter).OrderByDescending(a => a.CreatedAt).ToList()
-  //     };
-  //     return View(MyModel);
-  // }
+  [HttpPost("photos/upload")]
+  public async Task<IActionResult> AddPhoto(IFormFile file)
+  {
+    var user = _context.Users.Include(p => p.Photos).FirstOrDefault(e => e.UserId == HttpContext.Session.GetInt32("UserId"));
+
+    var result = await _photoService.AddPhotoAsync(file);
+
+    if (result.Error != null) return BadRequest(result.Error.Message);
+
+    var photo = new Photo
+    {
+      PhotoUrl = result.SecureUrl.AbsoluteUri,
+      PublicId = result.PublicId,
+      UserId = user.UserId
+    };
+
+    if (user.ProfilePhoto == "~/assets/images/user/blank-profile-picture.jpg")
+    {
+      user.ProfilePhoto = photo.PhotoUrl;
+    }
+
+    user.Photos.Add(photo);
+    _context.SaveChanges();
+
+    return RedirectToAction("SingleProfile", new { id = user.UserId });
+  }
 
 }
