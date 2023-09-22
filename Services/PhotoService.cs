@@ -6,6 +6,7 @@ using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using CSharpProject.Helpers;
 using CSharpProject.Interfaces;
+using CSharpProject.Models;
 using Microsoft.Extensions.Options;
 
 namespace CSharpProject.Services
@@ -13,7 +14,8 @@ namespace CSharpProject.Services
   public class PhotoService : IPhotoService
   {
     private readonly Cloudinary _cloudinary;
-    public PhotoService(IOptions<CloudinarySettings> config)
+    private readonly MyContext _context;
+    public PhotoService(IOptions<CloudinarySettings> config, MyContext context)
     {
       var acc = new Account
       (
@@ -21,8 +23,9 @@ namespace CSharpProject.Services
           config.Value.ApiKey,
           config.Value.ApiSecret
       );
-
       _cloudinary = new Cloudinary(acc);
+      _context = context;
+
     }
 
     public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
@@ -49,5 +52,20 @@ namespace CSharpProject.Services
 
       return await _cloudinary.DestroyAsync(deleteParams);
     }
+    public void UpdateMessageProfilePhoto(int userId, string newProfilePhotoUrl)
+    {
+      List<Message> senderMessages = _context.Messages.Where(e => e.SenderId == userId).ToList();
+      foreach (var sMessage in senderMessages)
+      {
+        sMessage.SenderProfilePhoto = newProfilePhotoUrl;
+      };
+      List<Message> recipientMessages = _context.Messages.Where(e => e.RecipientId == userId).ToList();
+      foreach (var rMessage in recipientMessages)
+      {
+        rMessage.RecipientProfilePhoto = newProfilePhotoUrl;
+      };
+
+    }
   }
+
 }
