@@ -3,15 +3,21 @@
 {
     <div class="card mt-3">
         <div class="card-body">
-        
-
-    <h5>@m.Writer.FirstName @m.Writer.LastName - <small class="text-muted">@m.CreatedAt.ToString("MMM dd, yyy - h:mm tt")</small></h5>
+            <div class="d-flex align-items-center gap-2">
+                
+                <img src='@m.Writer.ProfilePhoto' style="width: 50px;" class="card-img-top " alt="Profile Photo">
+                
+                <h5 class="mb-0">@m.Writer.FirstName @m.Writer.LastName - <small class="text-muted">@m.CreatedAt.ToString("MMM dd, yyy - h:mm tt")</small></h5>
+            </div>
     <p class="p-2">@m.MyPost</p>
     <div class="ps-4">
         @foreach(Comment c in m.CommentsOnPost)
         {
-            <h6>@c.Commenter.FirstName @c.Commenter.LastName - <small class="text-muted"> @c.CreatedAt.ToString("MMM dd, yyy - h:mm tt")</small></h6>
-            <p>@c.MyComment</p>
+            <div class="d-flex align-items-center gap-2">
+                <img src='@m.Writer.ProfilePhoto' style="width: 30px;" class="card-img-top " alt="Profile Photo">
+                <h6 class="mb-0">@c.Commenter.FirstName @c.Commenter.LastName - <small class="text-muted"> @c.CreatedAt.ToString("MMM dd, yyy - h:mm tt")</small></h6>
+            </div>
+                <p class="mt-2">@c.MyComment</p>
         }
         @await Html.PartialAsync("../Post/_NewComment.cshtml")
     </div>
