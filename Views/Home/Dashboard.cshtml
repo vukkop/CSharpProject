@@ -10,19 +10,25 @@
             
                 
                 <div class="mt-2">
-                    <h5 >@m.Writer.FirstName @m.Writer.LastName - <small class="text-muted">@m.CreatedAt.ToString("MMM dd, yyy - h:mm tt")</small></h5>
+                    <div class="d-flex align-items-center gap-2">
+                        <img  src="@Url.Content(m.Writer.ProfilePhoto)" style="width: 50px;" class="card-img-top " alt="Profile Photo">
+                        <h5 >@m.Writer.FirstName @m.Writer.LastName - <small class="text-muted">@m.CreatedAt.ToString("MMM dd, yyy - h:mm tt")</small></h5>
+                    </div>
                 </div>
 
             
     <p class="p-2">@m.MyPost</p>
     <div class="ps-4">
         @foreach(Comment c in m.CommentsOnPost)
-        {
-            <h6>@c.Commenter.FirstName @c.Commenter.LastName - <small class="text-muted"> @c.CreatedAt.ToString("MMM dd, yyy - h:mm tt")</small></h6>
+        {   <div class="d-flex align-items-center gap-2">
+                <img  src="@Url.Content(c.Commenter.ProfilePhoto)" style="width: 30px;" class="card-img-top " alt="Profile Photo">
+                <h6>@c.Commenter.FirstName @c.Commenter.LastName - <small class="text-muted"> @c.CreatedAt.ToString("MMM dd, yyy - h:mm tt")</small></h6>
+            </div>
             <p>@c.MyComment</p>
         }
         <form asp-action="CreateComment" asp-route-PostId="@m.PostId" method="post">
             <div class="mb-3">
+                
                 <textarea asp-for="NewComment.MyComment" class="form-control"></textarea>
                 @if(ViewBag.Error == m.PostId)
                 {
