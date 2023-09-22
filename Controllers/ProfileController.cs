@@ -86,7 +86,9 @@ public class ProfileController : Controller
     if (user.ProfilePhoto == "~/assets/images/user/blank-profile-picture.jpg")
     {
       user.ProfilePhoto = photo.PhotoUrl;
+      _photoService.UpdateMessageProfilePhoto(user.UserId, photo.PhotoUrl);
     }
+    HttpContext.Session.SetString("UserPhoto", user.ProfilePhoto);
 
     user.Photos.Add(photo);
     _context.SaveChanges();

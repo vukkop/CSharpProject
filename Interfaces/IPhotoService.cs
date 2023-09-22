@@ -6,6 +6,7 @@ namespace CSharpProject.Interfaces
   {
     Task<ImageUploadResult> AddPhotoAsync(IFormFile file);
     Task<DeletionResult> DeletePhoto(string publicId);
+    void UpdateMessageProfilePhoto(int userId, string newProfilePhotoUrl);
 
   }
 }

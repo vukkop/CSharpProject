@@ -35,7 +35,7 @@ function renderData(dataArray, userId) {
     li.innerHTML = `
             <div>
               <span class="float-end">
-                  <img class="rounded-circle" style="height: 50px;" src="${absolutePath(
+                  <img class="rounded-circle" style="height: 50px;" src="${getImageSrc(
                     m.SenderProfilePhoto
                   )}" alt="User Photo">
                 </span>
@@ -68,6 +68,20 @@ function renderData(dataArray, userId) {
   requestAnimationFrame(() => {
     cardBody.scrollTop = cardBody.scrollHeight;
   });
+}
+
+function getImageSrc(photoUrl) {
+  if (photoUrl.startsWith("~/assets/images")) {
+    return processRelativePath(photoUrl);
+  } else if (photoUrl.startsWith("https://res.cloudinary.com")) {
+    return photoUrl;
+  } else {
+    // Handle any other format or error case
+    // Provide a default image path
+  }
+}
+function processRelativePath(relativePath) {
+  return `${window.location.origin}${relativePath.substring(1)}`;
 }
 
 var form = document.getElementById("newMessageForm");
