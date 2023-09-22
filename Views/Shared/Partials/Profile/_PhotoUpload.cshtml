@@ -1,6 +1,6 @@
+@model List<Photo>
 <div class="row mt-3">
-    <div class="col-1"></div>
-    <div class="col-6">
+    <div class="col-5">
         <form asp-action="AddPhoto" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="file">Upload Photo</label>
@@ -10,5 +10,14 @@
         </form>
 
     </div>
-    <div class="col-5"></div>
+    <div class="col-7">
+        <div class="row">
+            @foreach (Photo p in Model)
+            {
+            <div class="col-4 mt-3">
+                <img class="rounded" src="@p.PhotoUrl" style="width: 100%;" alt="photo">
+            </div>
+            }
+        </div>
+    </div>
 </div>

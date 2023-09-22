@@ -24,11 +24,11 @@
                 <a class="nav-link" data-bs-toggle="tab" href="#EditProfile" aria-selected="false" role="tab"
                     tabindex="-1">Edit Bio</a>
             </li>
-            
+
         </ul>
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active show" id="home" role="tabpanel">
-                @await Html.PartialAsync("../Shared/Partials/Profile/_PhotoUpload")
+                @await Html.PartialAsync("../Shared/Partials/Profile/_PhotoUpload", Model.Photos)
             </div>
             <div class="tab-pane fade" id="EditProfile" role="tabpanel">
                 @await Html.PartialAsync("../Shared/Partials/Profile/_EditProfile", editedUser)

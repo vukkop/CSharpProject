@@ -56,7 +56,7 @@ public class ProfileController : Controller
   [HttpGet("profiles/{id}/edit")]
   public IActionResult EditProfile(int id)
   {
-    User? UserToEdit = _context.Users.FirstOrDefault(e => e.UserId == id);
+    User? UserToEdit = _context.Users.Include(p => p.Photos).FirstOrDefault(e => e.UserId == id);
     return View("EditProfile", UserToEdit);
   }
 
@@ -93,7 +93,7 @@ public class ProfileController : Controller
     user.Photos.Add(photo);
     _context.SaveChanges();
 
-    return RedirectToAction("SingleProfile", new { id = user.UserId });
+    return RedirectToAction("EditProfile", new { id = user.UserId });
   }
 
 }
