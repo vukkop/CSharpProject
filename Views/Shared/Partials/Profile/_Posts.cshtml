@@ -14,7 +14,7 @@
         @foreach(Comment c in m.CommentsOnPost)
         {
             <div class="d-flex align-items-center gap-2">
-                <img src='@m.Writer.ProfilePhoto' style="width: 30px;" class="card-img-top " alt="Profile Photo">
+                <img src='@c.Commenter.ProfilePhoto' style="width: 30px;" class="card-img-top " alt="Profile Photo">
                 <h6 class="mb-0">@c.Commenter.FirstName @c.Commenter.LastName - <small class="text-muted"> @c.CreatedAt.ToString("MMM dd, yyy - h:mm tt")</small></h6>
             </div>
                 <p class="mt-2">@c.MyComment</p>
