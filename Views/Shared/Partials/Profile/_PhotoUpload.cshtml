@@ -1,4 +1,5 @@
 @model List<Photo>
+
 <div class="row mt-3">
     <div class="col-5">
         <form asp-action="AddPhoto" method="post" enctype="multipart/form-data">
@@ -14,8 +15,12 @@
         <div class="row">
             @foreach (Photo p in Model)
             {
-            <div class="col-4 mt-3">
+            <div class="col-4 text-center mt-3">
                 <img class="rounded" src="@p.PhotoUrl" style="width: 100%;" alt="photo">
+                <form asp-action="DeletePhoto" asp-route-photoId="@p.PhotoId" method="post">
+                    <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-0 mt-1"><i class="fa-solid fa-trash"></i></button>
+                </form>
+
             </div>
             }
         </div>

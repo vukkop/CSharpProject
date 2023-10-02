@@ -96,4 +96,27 @@ public class ProfileController : Controller
     return RedirectToAction("EditProfile", new { id = user.UserId });
   }
 
+  [HttpPost("photos/{photoId}/delete")]
+  public async Task<IActionResult> DeletePhoto(int photoId)
+  {
+    var user = _context.Users.Include(p => p.Photos).FirstOrDefault(e => e.UserId == HttpContext.Session.GetInt32("UserId"));
+
+    var photo = user.Photos.FirstOrDefault(e => e.PhotoId == photoId);
+
+    if (photo == null) return NotFound();
+
+    // TODO: implement IsMain for photo thaht will represent profile photo
+    // if(photo.IsMain) return BadRequest("You cannot delete your main photo");
+
+    if (photo.PublicId != null)
+    {
+      var result = await _photoService.DeletePhoto(photo.PublicId);
+      if (result.Error != null) return BadRequest(result.Error.Message);
+    }
+
+    user.Photos.Remove(photo);
+    _context.SaveChanges();
+
+    return RedirectToAction("EditProfile", new { id = user.UserId });
+  }
 }
