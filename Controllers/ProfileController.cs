@@ -106,8 +106,7 @@ public class ProfileController : Controller
 
     if (photo == null) return NotFound();
 
-    // TODO: implement IsMain for photo thaht will represent profile photo
-    // if(photo.IsMain) return BadRequest("You cannot delete your main photo");
+    if (photo.IsMain) return BadRequest("You cannot delete your profile photo");
 
     if (photo.PublicId != null)
     {

@@ -26,7 +26,11 @@
                                 }
                             </form>
                             <form asp-action="DeletePhoto" asp-route-photoId="@p.PhotoId" method="post">
+                                @if (p.IsMain){
+                                <button disabled class="btn btn-danger btn-sm px-2 py-0 mt-1"><i class="fa-solid fa-trash"></i></button>
+                                }else{
                                 <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-0 mt-1"><i class="fa-solid fa-trash"></i></button>
+                                }
                             </form>
                         </div>
 
