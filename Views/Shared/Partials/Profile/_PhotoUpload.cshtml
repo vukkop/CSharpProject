@@ -19,7 +19,11 @@
                     <img class="rounded" src="@p.PhotoUrl" style="width: 100%;" alt="photo">
                         <div class="d-flex justify-content-center gap-1">
                             <form asp-action="ProfilePhoto" asp-route-photoId="@p.PhotoId" method="post">
+                                @if (p.IsMain){
+                                <button disabled class=" btn btn-success btn-sm px-2 py-0 mt-1"><i class="fa-solid fa-user"></i></button>
+                                }else{
                                 <button type="submit" class="btn btn-outline-success btn-sm px-2 py-0 mt-1"><i class="fa-solid fa-user"></i></button>
+                                }
                             </form>
                             <form asp-action="DeletePhoto" asp-route-photoId="@p.PhotoId" method="post">
                                 <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-0 mt-1"><i class="fa-solid fa-trash"></i></button>
