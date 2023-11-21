@@ -85,6 +85,7 @@ public class ProfileController : Controller
 
     if (user.ProfilePhoto == "~/assets/images/user/blank-profile-picture.jpg")
     {
+      photo.IsMain = true;
       user.ProfilePhoto = photo.PhotoUrl;
       _photoService.UpdateMessageProfilePhoto(user.UserId, photo.PhotoUrl);
     }
@@ -115,6 +116,40 @@ public class ProfileController : Controller
     }
 
     user.Photos.Remove(photo);
+    _context.SaveChanges();
+
+    return RedirectToAction("EditProfile", new { id = user.UserId });
+  }
+
+  [HttpPost("photos/{photoId}/edit")]
+  public async Task<IActionResult> ProfilePhoto(int photoId)
+  {
+    var user = _context.Users.Include(p => p.Photos).FirstOrDefault(e => e.UserId == HttpContext.Session.GetInt32("UserId"));
+
+    var selectedPhoto = user.Photos.FirstOrDefault(e => e.PhotoId == photoId);
+
+    var mainPhoto = user.Photos.FirstOrDefault(e => e.IsMain);
+
+    if (selectedPhoto == null) return NotFound();
+
+    if (mainPhoto == null)
+    {
+      selectedPhoto.IsMain = true;
+    }
+
+    if (selectedPhoto.PhotoId == mainPhoto?.PhotoId)
+    {
+      return BadRequest("Selected photo is set already set as profile photo");
+    }
+    else if (mainPhoto != null)
+    {
+      selectedPhoto.IsMain = true;
+      mainPhoto.IsMain = false;
+    }
+    user.ProfilePhoto = selectedPhoto.PhotoUrl;
+    _photoService.UpdateMessageProfilePhoto(user.UserId, selectedPhoto.PhotoUrl);
+    HttpContext.Session.SetString("UserPhoto", user.ProfilePhoto);
+
     _context.SaveChanges();
 
     return RedirectToAction("EditProfile", new { id = user.UserId });
